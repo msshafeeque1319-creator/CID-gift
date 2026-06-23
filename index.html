@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Happy Birthday Anagha! 🎂</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: #0a0a1a;
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+      padding: 60px 20px 80px;
+      text-align: center;
+    }
+    .stars-bg { position: absolute; inset: 0; pointer-events: none; }
+    .star {
+      position: absolute; background: #fff; border-radius: 50%;
+      animation: twinkle 2s infinite alternate;
+    }
+    @keyframes twinkle {
+      from { opacity: 0.2; transform: scale(1); }
+      to   { opacity: 1;   transform: scale(1.5); }
+    }
+    .confetti-wrap { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+    .conf {
+      position: absolute; border-radius: 2px;
+      animation: fall linear infinite; opacity: 0.85;
+    }
+    @keyframes fall {
+      0%   { top: -14px; transform: rotate(0deg); }
+      100% { top: 110%;  transform: rotate(720deg); }
+    }
+    .hero-magnify {
+      font-size: 80px; animation: bounce 1.6s ease-in-out infinite;
+      display: block; margin-bottom: 16px; position: relative; z-index: 1;
+    }
+    @keyframes bounce {
+      0%,100% { transform: translateY(0); }
+      50%      { transform: translateY(-16px); }
+    }
+    .hero-name {
+      font-family: 'Pacifico', cursive; font-size: clamp(42px, 10vw, 72px);
+      background: linear-gradient(90deg, #f9ca24, #f0932b, #e84393, #a855f7);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.15; margin-bottom: 14px; position: relative; z-index: 1;
+    }
+    .hero-sub {
+      font-size: clamp(15px, 3vw, 19px); color: #ccc; letter-spacing: 1px;
+      position: relative; z-index: 1; margin-bottom: 32px;
+    }
+    .scroll-hint {
+      position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%);
+      color: #aaa; font-size: 13px; letter-spacing: 1px; animation: fadeUpDown 2s infinite;
+    }
+    @keyframes fadeUpDown {
+      0%,100% { opacity: 0.4; transform: translateX(-50%) translateY(0); }
+      50%      { opacity: 1;   transform: translateX(-50%) translateY(-6px); }
+    }
+
+    /* ── SECTIONS ── */
+    section { max-width: 760px; margin: 0 auto; padding: 60px 20px; }
+    .section-label {
+      display: inline-block; background: rgba(249,202,36,0.15);
+      color: #f9ca24; border: 1px solid rgba(249,202,36,0.4);
+      font-size: 12px; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; padding: 5px 14px; border-radius: 20px;
+      margin-bottom: 18px;
+    }
+    h2 {
+      font-size: clamp(24px, 5vw, 34px); font-weight: 700;
+      margin-bottom: 28px; color: #fff;
+    }
+
+    /* ── DETECTIVE CLUES ── */
+    .clue-board {
+      background: #111128; border: 2px dashed #f9ca24;
+      border-radius: 20px; padding: 32px 24px;
+    }
+    .clue-board h2 { color: #f9ca24; margin-bottom: 8px; }
+    .clue-board p  { color: #aaa; font-size: 14px; margin-bottom: 24px; }
+    .clue-item {
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px; padding: 16px 18px;
+      margin-bottom: 14px; cursor: pointer;
+      display: flex; align-items: flex-start; gap: 14px;
+      transition: all 0.3s ease;
+    }
+    .clue-item:hover { background: rgba(249,202,36,0.1); border-color: rgba(249,202,36,0.5); }
+    .clue-item.revealed { background: rgba(249,202,36,0.12); border-color: #f9ca24; }
+    .clue-num {
+      background: #f9ca24; color: #1a1a2e; border-radius: 50%;
+      width: 30px; height: 30px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 13px; margin-top: 2px;
+    }
+    .clue-text { flex: 1; }
+    .clue-q { font-size: 14px; color: #ccc; line-height: 1.5; }
+    .clue-a {
+      display: none; margin-top: 10px;
+      font-size: 15px; font-weight: 700; color: #f9ca24; line-height: 1.5;
+    }
+    .clue-item.revealed .clue-a { display: block; }
+    .clue-item.revealed .clue-q { color: #999; }
+    .clue-arrow { font-size: 20px; transition: transform 0.3s; align-self: center; }
+    .clue-item.revealed .clue-arrow { transform: rotate(90deg); }
+
+    /* ── LESSONS ── */
+    .lessons-section { background: #0e0e22; }
+    .lessons-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 16px;
+    }
+    .lesson-card {
+      background: #1a1a35; border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px; padding: 24px 16px; text-align: center;
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .lesson-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 30px rgba(249,202,36,0.15);
+    }
+    .lesson-emoji { font-size: 36px; display: block; margin-bottom: 12px; }
+    .lesson-title { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 6px; }
+    .lesson-sub   { font-size: 13px; color: #888; line-height: 1.5; }
+
+    /* ── BIRTHDAY MESSAGE ── */
+    .msg-section { text-align: center; }
+    .msg-card {
+      background: linear-gradient(135deg, #f9ca24 0%, #f0932b 60%, #e84393 100%);
+      border-radius: 24px; padding: 48px 36px; position: relative; overflow: hidden;
+    }
+    .msg-card::before {
+      content: '🔍';
+      position: absolute; top: -20px; right: -10px;
+      font-size: 100px; opacity: 0.1; transform: rotate(15deg);
+    }
+    .msg-card p {
+      font-size: clamp(15px, 2.5vw, 18px); color: #1a1a2e;
+      line-height: 1.9; font-weight: 600; position: relative; z-index: 1;
+    }
+    .msg-signature {
+      margin-top: 24px; font-family: 'Pacifico', cursive;
+      font-size: 22px; color: #1a1a2e; position: relative; z-index: 1;
+    }
+
+    /* ── CAKE ── */
+    .cake-section { text-align: center; padding: 60px 20px 80px; background: #0a0a1a; }
+    .cake-section h2 { font-size: 28px; margin-bottom: 24px; color: #fff; }
+    .cake-btn {
+      background: linear-gradient(135deg, #e84393, #f0932b);
+      border: none; color: #fff;
+      font-family: 'Nunito', sans-serif; font-size: 20px; font-weight: 700;
+      padding: 18px 44px; border-radius: 50px; cursor: pointer;
+      transition: transform 0.2s; letter-spacing: 0.5px;
+      box-shadow: 0 6px 30px rgba(232,67,147,0.5);
+    }
+    .cake-btn:hover  { transform: scale(1.06); }
+    .cake-btn:active { transform: scale(0.97); }
+    .fireworks { display: none; font-size: 40px; margin-top: 24px; animation: pop 0.5s ease; }
+    @keyframes pop {
+      0%   { transform: scale(0); opacity: 0; }
+      60%  { transform: scale(1.2); }
+      100% { transform: scale(1);   opacity: 1; }
+    }
+    .fireworks.show { display: block; }
+    .wish-text {
+      display: none; margin-top: 18px;
+      font-size: 18px; font-weight: 700; color: #f9ca24;
+      animation: pop 0.5s ease;
+    }
+
+    /* ── BUSY GIRL ── */
+    .busy-section { background: #0a0a1a; }
+    .busy-title-wrap { text-align: center; margin-bottom: 36px; }
+    .busy-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #e84393, #a855f7);
+      color: #fff; font-family: 'Pacifico', cursive;
+      font-size: clamp(18px, 4vw, 26px);
+      padding: 12px 28px; border-radius: 50px;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 24px rgba(168,85,247,0.4);
+    }
+    .busy-subtitle { color: #aaa; font-size: 15px; }
+    .schedule-wrap {
+      background: #111128; border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 20px; padding: 28px 24px; position: relative; overflow: hidden;
+    }
+    .schedule-wrap::before {
+      content: '🏃‍♀️';
+      position: absolute; right: -10px; top: -10px;
+      font-size: 90px; opacity: 0.07;
+    }
+    .sched-row {
+      display: flex; align-items: flex-start; gap: 16px;
+      padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .sched-row:last-child { border-bottom: none; padding-bottom: 0; }
+    .sched-time {
+      background: rgba(168,85,247,0.15); color: #c084fc;
+      border: 1px solid rgba(168,85,247,0.3);
+      border-radius: 8px; padding: 4px 10px;
+      font-size: 12px; font-weight: 700; white-space: nowrap; flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .sched-content { flex: 1; }
+    .sched-task { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 3px; }
+    .sched-note { font-size: 13px; color: #888; }
+    .busy-footer-note {
+      text-align: center; margin-top: 24px;
+      font-size: 14px; color: #a855f7; font-weight: 700;
+      background: rgba(168,85,247,0.1); border: 1px solid rgba(168,85,247,0.3);
+      border-radius: 12px; padding: 14px 20px;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center; padding: 30px 20px;
+      background: #080815; color: #555; font-size: 14px;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+    footer span { color: #f9ca24; }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════ HERO ═══════════════════ -->
+<div class="hero">
+  <div class="stars-bg" id="stars"></div>
+  <div class="confetti-wrap" id="confetti"></div>
+  <span class="hero-magnify">🔍</span>
+  <div class="hero-name">Happy Birthday<br>Anagha!</div>
+  <div class="hero-sub">🎂 The world's greatest detective-hearted bestie 🎂</div>
+  <div class="scroll-hint">↓ Scroll to explore ↓</div>
+</div>
+
+<!-- ═══════════════════ DETECTIVE FILES ═══════════════════ -->
+<section>
+  <div class="clue-board">
+    <div class="section-label">🕵️ Top Secret</div>
+    <h2>The Birthday Detective Files</h2>
+    <p>Tap each case to reveal the truth — if you dare!</p>
+
+    <!-- ✏️ EDIT: Change the questions and answers below -->
+    <div class="clue-item" onclick="reveal(this)">
+      <div class="clue-num">1</div>
+      <div class="clue-text">
+        <div class="clue-q">Case #001: Who is the best person alive today?</div>
+        <div class="clue-a">ANAGHA. Case closed. 🏆</div>
+      </div>
+      <div class="clue-arrow">👉</div>
+    </div>
+
+    <div class="clue-item" onclick="reveal(this)">
+      <div class="clue-num">2</div>
+      <div class="clue-text">
+        <div class="clue-q">Case #002: What is the most dangerous weapon Anagha carries?</div>
+        <div class="clue-a">Her brain — solves any mystery in 3 seconds flat! 🧠⚡</div>
+      </div>
+      <div class="clue-arrow">👉</div>
+    </div>
+
+    <div class="clue-item" onclick="reveal(this)">
+      <div class="clue-num">3</div>
+      <div class="clue-text">
+        <div class="clue-q">Case #003: What happens when Anagha walks into a room?</div>
+        <div class="clue-a">The vibe immediately improves. every boys look her. ✨</div>
+      </div>
+      <div class="clue-arrow">👉</div>
+    </div>
+
+    <div class="clue-item" onclick="reveal(this)">
+      <div class="clue-num">4</div>
+      <div class="clue-text">
+        <div class="clue-q">Case #004: How many life lessons has Anagha gifted the world?</div>
+        <div class="clue-a">Countless. Every conversation is a masterclass!,then it ends with fight 📚💛</div>
+      </div>
+      <div class="clue-arrow">👉</div>
+    </div>
+    <!-- ✏️ Add more clue-item blocks here to add more clues -->
+  </div>
+</section>
+
+<!-- ═══════════════════ LIFE LESSONS ═══════════════════ -->
+<section class="lessons-section">
+  <div class="section-label">📖 Wisdom</div>
+  <h2>Lessons from Anagha's Handbook</h2>
+  <!-- ✏️ EDIT: Change the emojis, titles, and descriptions below -->
+  <div class="lessons-grid">
+    <div class="lesson-card">
+      <span class="lesson-emoji">🔍</span>
+      <div class="lesson-title">expecetation kills</div>
+      <div class="lesson-sub">don't exepect any thing from anyone</div>
+    </div>
+    <div class="lesson-card">
+      <span class="lesson-emoji">😶</span>
+      <div class="lesson-title">Stay silent</div>
+      <div class="lesson-sub">it safe for us</div>
+    </div>
+    <div class="lesson-card">
+      <span class="lesson-emoji">🌟</span>
+      <div class="lesson-title">Trust everyone</div>
+      <div class="lesson-sub">You already have all the answers</div>
+    </div>
+    <div class="lesson-card">
+      <span class="lesson-emoji">😋</span>
+      <div class="lesson-title">slow eating</div>
+      <div class="lesson-sub">it make you healthier</div>
+    </div>
+    <div class="lesson-card">
+      <span class="lesson-emoji">😎</span>
+      <div class="lesson-title">change the contact name for remebering something</div>
+      <div class="lesson-sub">birthday,stop tell etc....</div>
+    </div>
+<div class="lesson-card">
+      <span class="lesson-emoji">😂</span>
+      <div class="lesson-title">getting marriage</div>
+      <div class="lesson-sub">scary things in the world</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ BIRTHDAY MESSAGE ═══════════════════ -->
+<section class="msg-section">
+  <div class="section-label">💌 From the heart</div>
+  <div class="msg-card">
+    <!-- ✏️ EDIT: Change this message to your own words -->
+    <p>
+      Anagha, you're not just my best friend —<br>
+      you're my compass, my hype person,<br>
+      and my favourite riddle I never want to fully solve. 🔍💛<br><br>
+      Thank you for every lesson, every laugh,<br>
+      and every moment you made me see life differently.<br>
+      Today the universe celebrates YOU.<br>
+      You deserve all of it and more!<br>
+best of luck for you career in HR & FINANCE
+    </p>
+    <!-- ✏️ EDIT: Change the signature -->
+    <div class="msg-signature">— Your forever biggest fan 🎉</div>
+  </div>
+</section>
+
+<!-- ═══════════════════ MISS KADUGATHUKOND ═══════════════════ -->
+<section class="busy-section">
+  <div class="section-label">🏃‍♀️ Certified Busy Legend</div>
+  <div class="busy-title-wrap">
+    <div class="busy-badge">Miss Kadugathukond 🏆</div>
+    <div class="busy-subtitle">She doesn't have a schedule. The schedule has her.</div>
+  </div>
+
+  <div class="schedule-wrap">
+    <!-- ✏️ EDIT: Change the times and tasks to match Anagha's real busy life! -->
+    <div class="sched-row">
+      <div class="sched-time">2:00 AM</div>
+      <div class="sched-content">
+        <div class="sched-task">Already awake & planning 📋</div>
+        <div class="sched-note">While the rest of the world is dreaming, Anagha has a to-do list of 47 items</div>
+      </div>
+    </div>
+    <div class="sched-row">
+      <div class="sched-time">5:00 AM</div>
+      <div class="sched-content">
+        <div class="sched-task">Solving problems before breakfast 🧠</div>
+        <div class="sched-note">Normal people eat cereal. Anagha figure outing the upcoming problems in college.</div>
+      </div>
+    </div>
+    <div class="sched-row">
+      <div class="sched-time">10:00 AM</div>
+      <div class="sched-content">
+        <div class="sched-task">Running three things at once 🔥</div>
+        <div class="sched-note">Multitasking isn't a skill for her — because she doesnt do that</div>
+      </div>
+    </div>
+    <div class="sched-row">
+      <div class="sched-time">1:00 PM</div>
+      <div class="sched-content">
+        <div class="sched-task">"Quick" 1 hour lunch 🍱</div>
+        <div class="sched-note">Actually 30 minutes. She used the other 30 to answer 6 messages,too busyy.</div>
+      </div>
+    </div>
+    <div class="sched-row">
+      <div class="sched-time">4:00 PM</div>
+      <div class="sched-content">
+        <div class="sched-task">Said she'll rest. Did not rest. 😅</div>
+        <div class="sched-note">she watching reels. Classic Anagha move.</div>
+      </div>
+    </div>
+    <div class="sched-row">
+      <div class="sched-time">8:00 PM</div>
+      <div class="sched-content">
+        <div class="sched-task">Finally calls her mom 📞💛</div>
+        <div class="sched-note">non-negotiable appointment of the day</div>
+      </div>
+    </div>
+    <div class="sched-row">
+      <div class="sched-time">11:59 PM</div>
+      <div class="sched-content">
+        <div class="sched-task">Planning tomorrow's chaos 🌙</div>
+        <div class="sched-note">Sleep is just "recharging for more productivity" apparently</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="busy-footer-note">
+    🏆 Official Title: Miss Kadugathukond — because no place is too far, no task too many, no challenge too big for this girl! 💜
+  </div>
+</section>
+
+<!-- ═══════════════════ CAKE ═══════════════════ -->
+<div class="cake-section">
+  <h2>Ready to celebrate? 🎂</h2>
+  <button class="cake-btn" id="cakeBtn" onclick="blowCandles()">
+    🎂 Blow the Birthday Candles!
+  </button>
+  <div class="fireworks" id="fw">🎆🎇✨🎉🥳🎊🎈🌟💛🔍</div>
+  <div class="wish-text" id="wish"></div>
+</div>
+
+<!-- ═══════════════════ FOOTER ═══════════════════ -->
+<footer>
+  Made with <span>💛</span> just for <span>Anagha</span> — the greatest detective-hearted soul 🔍
+</footer>
+
+<script>
+  /* ── Stars ── */
+  const starsEl = document.getElementById('stars');
+  for (let i = 0; i < 60; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    const size = Math.random() * 3 + 1;
+    s.style.cssText = `
+      left:${Math.random()*100}%; top:${Math.random()*100}%;
+      width:${size}px; height:${size}px;
+      animation-delay:${Math.random()*4}s;
+      animation-duration:${Math.random()*2+1.5}s;
+    `;
+    starsEl.appendChild(s);
+  }
+
+  /* ── Confetti ── */
+  const cc = document.getElementById('confetti');
+  const colors = ['#f9ca24','#f0932b','#e84393','#6ab04c','#7ed6df','#e056fd','#a855f7'];
+  for (let i = 0; i < 40; i++) {
+    const c = document.createElement('div');
+    c.className = 'conf';
+    const w = Math.random()*8+5, h = Math.random()*8+5;
+    c.style.cssText = `
+      left:${Math.random()*100}%;
+      background:${colors[Math.floor(Math.random()*colors.length)]};
+      animation-duration:${Math.random()*5+4}s;
+      animation-delay:${Math.random()*5}s;
+      width:${w}px; height:${h}px;
+      border-radius:${Math.random()>0.5?'50%':'2px'};
+    `;
+    cc.appendChild(c);
+  }
+
+  /* ── Reveal clue ── */
+  function reveal(el) {
+    el.classList.toggle('revealed');
+    el.querySelector('.clue-arrow').textContent =
+      el.classList.contains('revealed') ? '✅' : '👉';
+  }
+
+  /* ── Blow candles ── */
+  const wishes = [
+    'May all your cases be solved with ease,it will! 🔍✨',
+    'Wishing you a year full of adventures & discoveries and getting married! 🌟',
+    'You deserve every bit of happiness coming your way! 💛',
+    'Here\'s to more lessons, laughs & legendary memories! 🎊',
+    'Another year wiser — and even more unstoppable ! 🚀'
+  ];
+  let blown = false;
+  function blowCandles() {
+    const fw   = document.getElementById('fw');
+    const wish = document.getElementById('wish');
+    const btn  = document.getElementById('cakeBtn');
+    if (!blown) {
+      fw.classList.add('show');
+      wish.style.display = 'block';
+      wish.textContent   = wishes[Math.floor(Math.random() * wishes.length)];
+      btn.textContent    = '🎉 Yayyy CIDyeeeee!!';
+      blown = true;
+    } else {
+      blown = false;
+      fw.classList.remove('show');
+      wish.style.display = 'none';
+      btn.textContent    = '🎂 Blow the Birthday Candles!';
+    }
+  }
+</script>
+</body>
+</html>
